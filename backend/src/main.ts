@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { DomainErrorFilter } from './shared/infrastructure/http/domain-error.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,7 @@ async function bootstrap() {
   });
   
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new DomainErrorFilter());
   app.setGlobalPrefix('api');
   
   await app.listen(3000);

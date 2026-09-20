@@ -1,7 +1,12 @@
-import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
-import { AuthMiddleware, AdminMiddleware } from './auth.middleware';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { UsersModule } from '../users/users.module';
+import { AdminMiddleware, AuthMiddleware } from './infrastructure/http/auth.middleware';
 
-@Module({})
+/**
+ * Authorization is an explicit route list, not guards: an endpoint that is not
+ * listed here is public.
+ */
+@Module({ imports: [UsersModule] })
 export class AuthModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
