@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Dealer - Login</title>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .error {
+            color: #e74c3c;
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" x-data="login()">
+        <h1>Server Dealer</h1>
+        <div class="form-group">
+            <label for="token">Token</label>
+            <input type="password" id="token" x-model="token" placeholder="Ingresa tu token">
+        </div>
+        <button @click="login()">Iniciar Sesión</button>
+        <div class="error" x-text="error" x-show="error"></div>
+    </div>
+
+    <script>
+        function login() {
+            return {
+                token: '',
+                error: '',
+                async login() {
+                    try {
+                        const response = await fetch('http://localhost:3000/api/users/me', {
+                            headers: {
+                                'Authorization': `Bearer ${this.token}`
+                            }
+                        });
+                        
+                        if (response.ok) {
+                            const userData = await response.json();
+                            localStorage.setItem('token', this.token);
+                            
+                            if (userData.isAdmin) {
+                                window.location.href = 'admin.html';
+                            } else {
+                                window.location.href = 'servers.html';
+                            }
+                        } else {
+                            this.error = 'Token inválido';
+                        }
+                    } catch (e) {
+                        this.error = 'Error de conexión';
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

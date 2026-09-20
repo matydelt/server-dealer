@@ -1,0 +1,10 @@
+[
+  {
+    "name": "example-server",
+    "exePath": "C:\\path\\to\\your\\server.exe"
+  },
+  {
+    "name": "valheim",
+    "exePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Valheim dedicated server\\start_headless_server.bat"
+  }
+]

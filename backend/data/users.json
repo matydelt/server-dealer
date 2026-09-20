@@ -1,0 +1,9 @@
+{
+  "adminToken": "admin-secret-token-123",
+  "users": [
+    {
+      "name": "juan",
+      "token": "token_123"
+    }
+  ]
+}
